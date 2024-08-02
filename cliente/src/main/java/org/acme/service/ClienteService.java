@@ -9,12 +9,23 @@ import org.acme.repository.ClienteRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Serviço responsável pela gestão dos clientes.
+ *
+ * Esta classe oferece operações CRUD (Create, Read, Update, Delete) para
+ * os clientes através da interface ClienteRepository.
+ */
 @ApplicationScoped
 public class ClienteService {
 
     @Inject
     private ClienteRepository clienteRepository;
 
+    /**
+     * Retorna uma lista de todos os clientes.
+     *
+     * @return uma lista de ClienteDTO contendo todos os clientes.
+     */
     public List<ClienteDTO> listarTodosClientes(){
         List<ClienteDTO> clientes = new ArrayList<>();
         clienteRepository.findAll().stream().forEach(item -> {
@@ -24,10 +35,21 @@ public class ClienteService {
         return clientes;
     }
 
+    /**
+     * Cria um novo cliente.
+     *
+     * @param clienteDTO o DTO do cliente que será criado.
+     */
     public void criarCliente(ClienteDTO clienteDTO) {
         clienteRepository.persist(clienteDTOToEntity(clienteDTO));
     }
 
+    /**
+     * Edita um cliente existente.
+     *
+     * @param id o ID do cliente que será editado.
+     * @param clienteDTO o DTO do cliente com as novas informações.
+     */
     public void editarCliente(Long id, ClienteDTO clienteDTO){
         ClienteEntity cliente = clienteRepository.findById(id);
 
@@ -40,10 +62,21 @@ public class ClienteService {
         clienteRepository.persist(cliente);
     }
 
+    /**
+     * Deleta um cliente pelo seu ID.
+     *
+     * @param id o ID do cliente que será deletado.
+     */
     public void deletarCliente(Long id){
         clienteRepository.deleteById(id);
     }
 
+    /**
+     * Converte uma entidade ClienteEntity para um DTO ClienteDTO.
+     *
+     * @param cliente a entidade ClienteEntity que será convertida.
+     * @return um DTO ClienteDTO.
+     */
     private ClienteDTO clienteEntityToDTO(ClienteEntity cliente){
         ClienteDTO clienteDTO = new ClienteDTO();
 
@@ -56,6 +89,12 @@ public class ClienteService {
         return clienteDTO;
     }
 
+    /**
+     * Converte um DTO ClienteDTO para uma entidade ClienteEntity.
+     *
+     * @param cliente o DTO ClienteDTO que será convertido.
+     * @return uma entidade ClienteEntity.
+     */
     private ClienteEntity clienteDTOToEntity(ClienteDTO cliente){
         ClienteEntity clienteEntity = new ClienteEntity();
 
